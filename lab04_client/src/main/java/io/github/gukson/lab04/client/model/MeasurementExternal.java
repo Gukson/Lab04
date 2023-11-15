@@ -7,34 +7,34 @@ import com.google.gson.annotations.SerializedName;
 
 public class MeasurementExternal {
     @SerializedName("id_stacji")
-    @Expose
+    //@Expose
     private String idStacji;
     @SerializedName("stacja")
-    @Expose
+    //@Expose
     private String stacja;
     @SerializedName("data_pomiaru")
-    @Expose
+    //@Expose
     private String dataPomiaru;
     @SerializedName("godzina_pomiaru")
-    @Expose
+    //@Expose
     private String godzinaPomiaru;
-    @SerializedName("temperatura")
-    @Expose
+    //@SerializedName("temperatura")
+    //@Expose
     private String temperatura;
     @SerializedName("predkosc_wiatru")
-    @Expose
+    //@Expose
     private String predkoscWiatru;
     @SerializedName("kierunek_wiatru")
-    @Expose
+    //@Expose
     private String kierunekWiatru;
     @SerializedName("wilgotnosc_wzgledna")
-    @Expose
+    //@Expose
     private String wilgotnoscWzgledna;
     @SerializedName("suma_opadu")
-    @Expose
+    //@Expose
     private String sumaOpadu;
     @SerializedName("cisnienie")
-    @Expose
+    //@Expose
     private String cisnienie;
 
     public String getIdStacji() {
