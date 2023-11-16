@@ -14,8 +14,5 @@ public class Main {
         System.out.println(data[0].getStacja());
         System.out.println(data[0]);
         System.out.println(data[1]);
-
-//        MeasurmentService - gada z dao
-//        MeasurmentDao
     }
 }
