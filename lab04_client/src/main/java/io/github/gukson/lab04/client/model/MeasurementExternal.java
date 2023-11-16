@@ -3,7 +3,7 @@ package io.github.gukson.lab04.client.model;
 import com.google.gson.annotations.SerializedName;
 
 
-public class MeasurmentExternal {
+public class MeasurementExternal {
     @SerializedName("id_stacji")
     private String idStacji;
     @SerializedName("stacja")

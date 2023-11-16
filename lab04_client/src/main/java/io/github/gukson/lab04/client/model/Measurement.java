@@ -2,10 +2,8 @@ package io.github.gukson.lab04.client.model;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
-import java.util.Date;
-import java.util.Timer;
 
-public class Measurment {
+public class Measurement {
     private Integer stationId;
     private String station;
     private LocalDate measurementData;
@@ -17,7 +15,7 @@ public class Measurment {
     private Double totalRainfall;
     private Double pressure;
 
-    public Measurment(Integer stationId, String station, LocalDate measurementData, LocalTime measurementTime, Double temperature, Integer windSpeed, Integer windDirection, Double relativeHumidity, Double totalRainfall, Double pressure) {
+    public Measurement(Integer stationId, String station, LocalDate measurementData, LocalTime measurementTime, Double temperature, Integer windSpeed, Integer windDirection, Double relativeHumidity, Double totalRainfall, Double pressure) {
         this.stationId = stationId;
         this.station = station;
         this.measurementData = measurementData;
