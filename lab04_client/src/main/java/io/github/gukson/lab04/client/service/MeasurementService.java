@@ -9,7 +9,9 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.URL;
 import java.time.LocalDate;
-import java.time.LocalTime;
+
+import static org.apache.commons.lang3.math.NumberUtils.toDouble;
+import static org.apache.commons.lang3.math.NumberUtils.toInt;
 
 public class MeasurementService {
     private URL url;
