@@ -1,11 +1,9 @@
 package io.github.gukson.lab04.client.model;
 
-import javax.annotation.Generated;
-import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 
-public class MeasurementExternal {
+public class MeasurmentExternal {
     @SerializedName("id_stacji")
     private String idStacji;
     @SerializedName("stacja")
