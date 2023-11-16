@@ -41,6 +41,7 @@ public class MeasurementService {
                         Double.valueOf(m.getCisnienie())
                 ));
             }
+
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
