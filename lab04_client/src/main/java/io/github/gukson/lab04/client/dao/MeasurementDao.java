@@ -13,23 +13,25 @@ public class MeasurementDao implements Dao<Measurement> {
 
 
     private Connection connection;
+    private String tableName;
 
-    public MeasurementDao(Connection connection) {
+    public MeasurementDao(Connection connection, String tableName) {
         this.connection = connection;
+        this.tableName = tableName;
     }
 
     @Override
-    public Optional<Measurement> find(Integer id, String tableName) {
+    public Optional<Measurement> find(Integer id) {
         return Optional.empty();
     }
 
     @Override
-    public List<Measurement> findAll(String tableName) {
+    public List<Measurement> findAll() {
         List<Measurement> measurementList = new ArrayList<>();
         try{
             PreparedStatement stmt = connection.prepareStatement("SELECT * FROM (?)");
             stmt.setQueryTimeout(10);
-            stmt.setString(1,tableName);
+            stmt.setString(1,this.tableName);
             ResultSet measurementSet =  stmt.executeQuery();
             while (measurementSet.next()){
                 measurementList.add(new Measurement(measurementSet.getInt("stationId"),measurementSet.getString("station"), LocalDate.parse(measurementSet.getString("dataPomiaru")), LocalTime.parse(measurementSet.getString("godzinaPomiaru")), measurementSet.getDouble("temperatura"),measurementSet.getInt("predkoscWiatru"), measurementSet.getInt("kierunekWiatru"), measurementSet.getDouble("wilgotnoscWzgledna"), measurementSet.getDouble("sumaOpadow"), measurementSet.getDouble("cisnienie")));
@@ -42,10 +44,10 @@ public class MeasurementDao implements Dao<Measurement> {
     }
 
     @Override
-    public Measurement save(Measurement measurement, String tableName) {
+    public Measurement save(Measurement measurement) {
         try{
             PreparedStatement stmt = connection.prepareStatement("INSERT INTO (?) (stationId,station,dataPomiaru,godzinaPomiaru,temperatura,predkoscWiatru,kierunekWiatru,wilgotnoscWzgledna,sumaOpadow,cisnienie) VALUES (?,?,?,?,?,?,?,?,?,?)");
-            stmt.setString(1,tableName);
+            stmt.setString(1,this.tableName);
             stmt.setInt(2,measurement.getStationId());
             stmt.setString(3,measurement.getStation());
             stmt.setString(4,String.valueOf(measurement.getMeasurementData()));
@@ -63,5 +65,21 @@ public class MeasurementDao implements Dao<Measurement> {
         }
 
         return measurement;
+    }
+
+    public boolean areDataFromThisDay(LocalDate date){
+        try{
+            PreparedStatement stmt = connection.prepareStatement("SELECT COUNT(*) AS liczba_wierszy FROM (?) WHERE dataPomiaru = '(?)'");
+            stmt.setString(1,this.tableName);
+            stmt.setString(2,String.valueOf(date));
+            ResultSet resultSet = stmt.executeQuery();
+            if(resultSet.getInt(1) > 0){
+                return true;
+            }
+
+        }catch (SQLException e){
+            throw new RuntimeException(e);
+        }
+        return false;
     }
 }
