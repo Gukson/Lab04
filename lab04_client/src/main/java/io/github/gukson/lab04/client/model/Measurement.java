@@ -3,6 +3,9 @@ package io.github.gukson.lab04.client.model;
 import java.time.LocalDate;
 import java.time.LocalTime;
 
+import static org.apache.commons.lang3.math.NumberUtils.toDouble;
+import static org.apache.commons.lang3.math.NumberUtils.toInt;
+
 public class Measurement {
     private Integer stationId;
     private String station;
@@ -26,6 +29,19 @@ public class Measurement {
         this.relativeHumidity = relativeHumidity;
         this.totalRainfall = totalRainfall;
         this.pressure = pressure;
+    }
+
+    public Measurement(MeasurmentExternal m) {
+        this.stationId = toInt(m.getIdStacji());
+        this.station = m.getStacja();
+        this.measurementData =  LocalDate.parse(m.getDataPomiaru());
+        this.measurementTime = LocalTime.parse(m.getGodzinaPomiaru()+ ":00" );
+        this.temperature = toDouble(m.getTemperatura());
+        this.windSpeed = toInt(m.getPredkoscWiatru());
+        this.windDirection =  toInt(m.getKierunekWiatru());
+        this.relativeHumidity = toDouble(m.getWilgotnoscWzgledna());
+        this.totalRainfall = toDouble(m.getSumaOpadu());
+        this.pressure = toDouble(m.getCisnienie());
     }
 
     public Integer getStationId() {
