@@ -35,7 +35,12 @@ public class Measurement {
         this.stationId = toInt(m.getIdStacji());
         this.station = m.getStacja();
         this.measurementData =  LocalDate.parse(m.getDataPomiaru());
-        this.measurementTime = LocalTime.parse(m.getGodzinaPomiaru()+ ":00" );
+        if(m.getGodzinaPomiaru().length() == 1){
+            this.measurementTime = LocalTime.parse("0" + m.getGodzinaPomiaru()+ ":00" );
+        }else{
+            this.measurementTime = LocalTime.parse(m.getGodzinaPomiaru()+ ":00" );
+        }
+
         this.temperature = toDouble(m.getTemperatura());
         this.windSpeed = toInt(m.getPredkoscWiatru());
         this.windDirection =  toInt(m.getKierunekWiatru());
