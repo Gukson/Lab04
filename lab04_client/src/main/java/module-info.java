@@ -5,4 +5,5 @@ module io.github.gukson.lab04.client{
     requires org.apache.commons.lang3;
     opens io.github.gukson.lab04.client.model to com.google.gson;
     opens io.github.gukson.lab04.client.service to com.google.gson;
+    exports io.github.gukson.lab04.client;
 }

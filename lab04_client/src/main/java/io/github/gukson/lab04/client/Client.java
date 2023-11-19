@@ -6,8 +6,8 @@ import java.net.MalformedURLException;
 import java.sql.SQLException;
 
 
-public class Main {
-    public static void main(String[] args) {
+public class Client {
+    public void client() {
 
         View view = new View();
         try {
