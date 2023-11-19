@@ -16,6 +16,7 @@ import static org.apache.commons.lang3.math.NumberUtils.toInt;
 public class MeasurementService {
     private URL url;
     private MeasurementDao mDao;
+
     private String tableName;
 
     public MeasurementService(URL url, MeasurementDao mDao, String tabelName) {

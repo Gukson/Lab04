@@ -68,10 +68,12 @@ public class MeasurementDao implements Dao<Measurement> {
 
     public boolean areDataFromThisDay(LocalDate date){
         try{
+
             PreparedStatement stmt = connection.prepareStatement("SELECT COUNT(*) AS liczba_wierszy FROM data WHERE dataPomiaru = (?)");
             stmt.setString(1,String.valueOf(date));
             ResultSet resultSet = stmt.executeQuery();
             if(resultSet.getInt(1) > 0){
+                System.out.println("dane są aktualne");
                 return true;
             }
 
