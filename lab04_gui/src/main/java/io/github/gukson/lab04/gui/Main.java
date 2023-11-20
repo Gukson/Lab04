@@ -5,5 +5,6 @@ public class Main {
         System.setProperty("log4j.defaultInitOverride","true");
         Client client = new Client();
         client.client();
+        CoreUI coreUI = new CoreUI(client.getMeasurementDao());
     }
 }
