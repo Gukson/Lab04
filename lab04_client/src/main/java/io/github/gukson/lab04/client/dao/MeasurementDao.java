@@ -13,11 +13,9 @@ public class MeasurementDao implements Dao<Measurement> {
 
 
     private Connection connection;
-    private String tableName;
 
-    public MeasurementDao(Connection connection, String tableName) {
+    public MeasurementDao(Connection connection) {
         this.connection = connection;
-        this.tableName = tableName;
     }
 
     @Override
@@ -29,9 +27,8 @@ public class MeasurementDao implements Dao<Measurement> {
     public List<Measurement> findAll() {
         List<Measurement> measurementList = new ArrayList<>();
         try{
-            PreparedStatement stmt = connection.prepareStatement("SELECT * FROM (?)");
+            PreparedStatement stmt = connection.prepareStatement("SELECT * FROM data");
             stmt.setQueryTimeout(10);
-            stmt.setString(1,this.tableName);
             ResultSet measurementSet =  stmt.executeQuery();
             while (measurementSet.next()){
                 measurementList.add(new Measurement(measurementSet.getInt("stationId"),measurementSet.getString("station"), LocalDate.parse(measurementSet.getString("dataPomiaru")), LocalTime.parse(measurementSet.getString("godzinaPomiaru")), measurementSet.getDouble("temperatura"),measurementSet.getInt("predkoscWiatru"), measurementSet.getInt("kierunekWiatru"), measurementSet.getDouble("wilgotnoscWzgledna"), measurementSet.getDouble("sumaOpadow"), measurementSet.getDouble("cisnienie")));
@@ -81,5 +78,22 @@ public class MeasurementDao implements Dao<Measurement> {
             throw new RuntimeException(e);
         }
         return false;
+    }
+
+    public List<Measurement> getDataById(Integer stationId){
+        List<Measurement> measurementList = new ArrayList<>();
+        try{
+            PreparedStatement stmt = connection.prepareStatement("SELECT * FROM data WHERE stationId = (?)");
+            stmt.setInt(1,stationId);
+            stmt.setQueryTimeout(10);
+            ResultSet measurementSet =  stmt.executeQuery();
+            while (measurementSet.next()){
+                measurementList.add(new Measurement(measurementSet.getInt("stationId"),measurementSet.getString("station"), LocalDate.parse(measurementSet.getString("dataPomiaru")), LocalTime.parse(measurementSet.getString("godzinaPomiaru")), measurementSet.getDouble("temperatura"),measurementSet.getInt("predkoscWiatru"), measurementSet.getInt("kierunekWiatru"), measurementSet.getDouble("wilgotnoscWzgledna"), measurementSet.getDouble("sumaOpadow"), measurementSet.getDouble("cisnienie")));
+            }
+
+        }catch (SQLException e){
+            throw new RuntimeException(e);
+        }
+        return measurementList;
     }
 }

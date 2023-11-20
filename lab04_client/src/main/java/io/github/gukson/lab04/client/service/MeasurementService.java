@@ -64,4 +64,5 @@ public class MeasurementService {
         MeasurmentExternal[] data =  gson.fromJson(reader, MeasurmentExternal[].class);
         return data;
     }
+
 }
