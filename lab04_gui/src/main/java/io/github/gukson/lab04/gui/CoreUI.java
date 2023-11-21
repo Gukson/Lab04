@@ -35,4 +35,5 @@ public class CoreUI extends JFrame {
         this.jpanel = gui.getContentPane();
         this.replaceView(this.jpanel);
     }
+
 }

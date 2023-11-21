@@ -17,6 +17,7 @@ public class View {
         String tableName = "data";
         URL url = new URL("https://danepubliczne.imgw.pl/api/data/synop/format/json");
         mDao = new MeasurementDao();
+
         MeasurementService service = new MeasurementService(url,mDao,tableName);
         service.checkDataStatus(LocalDate.now());
     }
@@ -25,7 +26,9 @@ public class View {
         return connection;
     }
 
+
     public MeasurementDao getmDao() {
         return mDao;
     }
+
 }
