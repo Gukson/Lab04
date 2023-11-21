@@ -14,9 +14,13 @@ public class MeasurementDao implements Dao<Measurement> {
 
     private Connection connection;
 
-    public MeasurementDao(Connection connection) {
-        this.connection = connection;
+    public MeasurementDao() {
+        try {
+            this.connection = DriverManager.getConnection("jdbc:sqlite:/Users/kuba/Documents/MojeDokumenty/studia/III semestr/Kubik/Lab04/lab04_client/src/main/java/io/github/gukson/lab04/client/database/dataBase.db");
+        }catch (SQLException e2){}
+
     }
+
 
     @Override
     public Optional<Measurement> find(Integer id) {
@@ -65,7 +69,6 @@ public class MeasurementDao implements Dao<Measurement> {
 
     public boolean areDataFromThisDay(LocalDate date){
         try{
-
             PreparedStatement stmt = connection.prepareStatement("SELECT COUNT(*) AS liczba_wierszy FROM data WHERE dataPomiaru = (?)");
             stmt.setString(1,String.valueOf(date));
             ResultSet resultSet = stmt.executeQuery();
@@ -95,5 +98,15 @@ public class MeasurementDao implements Dao<Measurement> {
             throw new RuntimeException(e);
         }
         return measurementList;
+    }
+
+    public List<Integer> getAllStationId() throws SQLException {
+        List<Integer> idList = new ArrayList<>();
+        PreparedStatement stmt = connection.prepareStatement("SELECT DISTINCT stationId from data");
+        ResultSet resultSet = stmt.executeQuery();
+        while(resultSet.next()){
+            idList.add(resultSet.getInt("stationId"));
+        }
+        return idList;
     }
 }

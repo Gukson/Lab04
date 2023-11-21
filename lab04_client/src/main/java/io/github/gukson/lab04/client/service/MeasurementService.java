@@ -12,7 +12,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.URL;
 import java.time.LocalDate;
-
+import java.util.Objects;
 
 
 import static org.apache.commons.lang3.math.NumberUtils.toDouble;
@@ -33,11 +33,12 @@ public class MeasurementService {
         this.tableName = tabelName;
     }
 
-    public void checkDataStatus(LocalDate todaysDate){
-        if(!mDao.areDataFromThisDay(todaysDate)){
-            this.importNewData(this.tableName);
+    public void checkDataStatus(LocalDate todaysDate) throws IOException {
+        MeasurmentExternal[] data = this.getJsonFromAPI();
+        if(!mDao.areDataFromThisDay(todaysDate) && Objects.equals(data[0].getDataPomiaru(), String.valueOf(todaysDate))){
+            System.out.println(todaysDate);
+            this.importNewData(data);
             logger.info("Zaktualizowano dane");
-
         }
         else {
             logger.info("Dane są aktualne");
@@ -45,17 +46,11 @@ public class MeasurementService {
 
     }
 
-    private void importNewData(String tableName){
-        try {
-            MeasurmentExternal[] data = this.getJsonFromAPI();
+    private void importNewData(MeasurmentExternal[] data){
             for(MeasurmentExternal m: data){
 
                 mDao.save(new Measurement(m));
             }
-
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
     }
 
     private MeasurmentExternal[] getJsonFromAPI() throws IOException {

@@ -3,6 +3,7 @@ package io.github.gukson.lab04.client;
 import io.github.gukson.lab04.client.dao.MeasurementDao;
 import io.github.gukson.lab04.client.service.View;
 
+import java.io.IOException;
 import java.net.MalformedURLException;
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -11,10 +12,10 @@ import java.sql.SQLException;
 public class Client {
     private Connection connection;
     private MeasurementDao measurementDao;
-    public void client() {
+    public void client(){
         View view = new View();
         this.connection = view.getConnection();
-        this.measurementDao = new MeasurementDao(connection);
+        this.measurementDao = new MeasurementDao();
         try {
             view.clientView();
         } catch (SQLException e) {
@@ -23,6 +24,8 @@ public class Client {
             System.out.println(e.getMessage());
         } catch (ClassNotFoundException e) {
             System.out.println(e.getMessage());
+        } catch (IOException e) {
+            throw new RuntimeException(e);
         }
     }
 
