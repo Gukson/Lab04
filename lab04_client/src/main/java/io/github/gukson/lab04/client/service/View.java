@@ -2,6 +2,7 @@ package io.github.gukson.lab04.client.service;
 
 import io.github.gukson.lab04.client.dao.MeasurementDao;
 
+import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.sql.Connection;
@@ -11,11 +12,12 @@ import java.time.LocalDate;
 
 public class View {
     private Connection connection;
-    public void clientView() throws SQLException, MalformedURLException, ClassNotFoundException {
+    private MeasurementDao mDao;
+    public void clientView() throws SQLException, IOException, ClassNotFoundException {
         String tableName = "data";
         URL url = new URL("https://danepubliczne.imgw.pl/api/data/synop/format/json");
-        this.connection = DriverManager.getConnection("jdbc:sqlite:/Users/kuba/Documents/MojeDokumenty/studia/III semestr/Kubik/Lab04/lab04_client/src/main/java/io/github/gukson/lab04/client/database/dataBase.db");
-        MeasurementDao mDao = new MeasurementDao(this.connection);
+        mDao = new MeasurementDao();
+
         MeasurementService service = new MeasurementService(url,mDao,tableName);
         service.checkDataStatus(LocalDate.now());
     }
@@ -23,4 +25,10 @@ public class View {
     public Connection getConnection() {
         return connection;
     }
+
+
+    public MeasurementDao getmDao() {
+        return mDao;
+    }
+
 }
