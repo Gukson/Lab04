@@ -1,6 +1,7 @@
 package io.github.gukson.lab04.gui;
 
 import io.github.gukson.lab04.client.dao.*;
+import io.github.gukson.lab04.gui.charts.RunCharts;
 import io.github.gukson.lab04.gui.menu.MenuGUI;
 
 import javax.swing.*;
@@ -27,8 +28,11 @@ public class CoreUI extends JFrame {
         setContentPane(this.jpanel);
         this.revalidate();
     }
-    public void toogleCharts(Integer stationId){
-
+    public void toogleCharts(){
+        RunCharts runCharts = new RunCharts();
+        this.replaceView(runCharts.initComponents());
+        runCharts.AddLegends();
+        runCharts.AddData();
     }
     public void toogleMaenu(){
         MenuGUI gui = new MenuGUI(measurementDao);
