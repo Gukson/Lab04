@@ -18,7 +18,7 @@ public class CoreUI extends JFrame {
         this.measurementDao = measurementDao;
         setResizable(false);
         setAutoRequestFocus(false);
-        setBounds(100, 100, 734, 409);
+        setBounds(100, 100, 900, 409);
         setBackground(new Color(33, 59, 68));
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }
@@ -28,8 +28,8 @@ public class CoreUI extends JFrame {
         setContentPane(this.jpanel);
         this.revalidate();
     }
-    public void toogleCharts(){
-        RunCharts runCharts = new RunCharts();
+    public void toogleCharts(String name){
+        RunCharts runCharts = new RunCharts(name, measurementDao);
         this.replaceView(runCharts.initComponents());
         runCharts.AddLegends();
         runCharts.AddData();
