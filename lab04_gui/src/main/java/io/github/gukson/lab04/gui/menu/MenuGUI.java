@@ -24,12 +24,12 @@ public class MenuGUI extends JFrame {
         menuLabel.setFont(new Font("Lucida Grande", Font.BOLD, 30));
         menuLabel.setForeground(new Color(254, 255, 255));
         menuLabel.setHorizontalAlignment(SwingConstants.CENTER);
-        menuLabel.setBounds(6, 6, 722, 37);
+        menuLabel.setBounds(6, 6, 888, 37);
         contentPane.add(menuLabel);
 
         this.dataSection = new JPanel();
         this.dataSection.setBorder(null);
-        dataSection.setBounds(6, 55, 722, 320);
+        dataSection.setBounds(6, 55, 888, 320);
         dataSection.setOpaque(false);
         contentPane.add(dataSection);
 
