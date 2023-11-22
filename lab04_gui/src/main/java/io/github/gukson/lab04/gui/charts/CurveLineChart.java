@@ -148,6 +148,7 @@ public class CurveLineChart extends JComponent {
                     }
                     if (index != selectedIndex) {
                         changeSelectedIndex(index);
+
                     }
                 }
             }
@@ -304,6 +305,7 @@ public class CurveLineChart extends JComponent {
         legend.addActionListener((ActionEvent e) -> {
             if (animate > 0) {
                 startChange(legend.getIndex());
+                updateMax(legend.getIndex());
                 clearLegendSelected(legend);
             }
         });
@@ -326,14 +328,21 @@ public class CurveLineChart extends JComponent {
             }
         }
     }
+    public void updateMax(Integer index){
+        double max = 0;
+        for(ModelChart d: model){
+            if(d.getValues()[index] > max){
+                max = d.getValues()[index];
+            }
+        }
+        blankPlotChart.setMaxValues(max);
+    }
 
     public void addData(ModelChart data) {
         model.add(data);
         blankPlotChart.setLabelCount(model.size());//ustawia ilość danych w skali poziomej
-        double max = data.getMaxValues(); //usatwia skalę pionowa
-        if (max > blankPlotChart.getMaxValues()) {
-            blankPlotChart.setMaxValues(max);
-        }
+        updateMax(0); //usatwia skalę pionowa
+
     }
 
     public void clear() {

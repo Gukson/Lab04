@@ -4,4 +4,5 @@ module io.github.gukson.lab04.gui{
     requires java.sql;
     requires TimingFramework;
     requires com.miglayout.swing;
+    exports io.github.gukson.lab04.gui.charts;
 }

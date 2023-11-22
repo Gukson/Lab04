@@ -73,7 +73,6 @@ public class MeasurementDao implements Dao<Measurement> {
             stmt.setString(1,String.valueOf(date));
             ResultSet resultSet = stmt.executeQuery();
             if(resultSet.getInt(1) > 0){
-                System.out.println("dane są aktualne");
                 return true;
             }
 

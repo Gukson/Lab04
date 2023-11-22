@@ -1,12 +1,25 @@
 package io.github.gukson.lab04.gui.charts;
 
+import io.github.gukson.lab04.client.dao.MeasurementDao;
+import io.github.gukson.lab04.client.model.Measurement;
+import io.github.gukson.lab04.gui.panel.PanelShadow;
+
 import javax.swing.*;
 import java.awt.*;
+import java.util.List;
 
 public class RunCharts extends JFrame {
 
     private io.github.gukson.lab04.gui.charts.CurveLineChart chart;
     private io.github.gukson.lab04.gui.panel.PanelShadow panelShadow1;
+
+    private String name;
+    private MeasurementDao measurementDao;
+
+    public RunCharts(String name, MeasurementDao measurementDao)  {
+        this.name = name;
+        this.measurementDao = measurementDao;
+    }
 
     public JPanel initComponents() {
 
@@ -55,15 +68,17 @@ public class RunCharts extends JFrame {
 
         return panelShadow1;
     }
+
+    //Kolejność danych: temperatura, predkosc wiatru, kierunek wiatru, wilgotność względna, suma opadów, cisnienie
     public void AddData() {
         chart.clear();
-        chart.addData(new ModelChart("January", new double[]{1100, 50, 100}));
-        chart.addData(new ModelChart("February", new double[]{600, 300, 150}));
-        chart.addData(new ModelChart("March", new double[]{200, 50, 900}));
-        chart.addData(new ModelChart("April", new double[]{480, 700, 100}));
-        chart.addData(new ModelChart("May", new double[]{350, 540, 500}));
-        chart.addData(new ModelChart("June", new double[]{450, 800, 100}));
-        chart.addData(new ModelChart("July", new double[]{800, 800, 100}));
+        List<Measurement> list = measurementDao.getDataById(Integer.parseInt(this.name));
+        for(Measurement m: list){
+            chart.addData(new ModelChart(String.valueOf(m.getMeasurementData()), new double[]{m.getTemperature(),m.getWindSpeed(),m.getWindDirection(),m.getRelativeHumidity(),m.getTotalRainfall(),m.getPressure()}));
+            //TODO problem with Total Rainfall amount - maybe do it x100?
+            //TODO make data more vertical to save space when lot of data
+        }
+
         //metoda addData dodaje labele do listy punktów w poziomej skali oraz wylicza na bierzącą maksymalną skalę poziomą
         //tu są narzucone wartości
         chart.start();
@@ -71,9 +86,13 @@ public class RunCharts extends JFrame {
 
     public void AddLegends(){
         chart.setTitle("Chart Data");
-        chart.addLegend("Amount", Color.decode("#7b4397"), Color.decode("#dc2430"));
-        chart.addLegend("Cost", Color.decode("#e65c00"), Color.decode("#F9D423"));
-        chart.addLegend("Profit", Color.decode("#0099F7"), Color.decode("#F11712"));
+        chart.addLegend("Temperature", Color.decode("#7b4397"), Color.decode("#dc2430"));
+        chart.addLegend("Wind speed", Color.decode("#e65c00"), Color.decode("#F9D423"));
+        chart.addLegend("Wind direction", Color.decode("#0099F7"), Color.decode("#F11712"));
+        chart.addLegend("Relative Humanity", Color.decode("#0099F7"), Color.decode("#F11712"));
+        chart.addLegend("Total Rainfall", Color.decode("#0099F7"), Color.decode("#F11712"));
+        chart.addLegend("Pressure", Color.decode("#0099F7"), Color.decode("#F11712"));
+        //TODO get more colors combination
     }
 
 

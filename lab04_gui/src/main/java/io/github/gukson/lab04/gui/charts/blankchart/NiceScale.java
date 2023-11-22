@@ -18,9 +18,7 @@ public class NiceScale {
 
     private void calculate() {
         range = niceNum(max - min, false);
-        System.out.println(range);
         tickSpacing = niceNum(range / (maxTicks - 1), true);
-        System.out.println(tickSpacing);
         niceMin = Math.floor(min / tickSpacing) * tickSpacing;
         niceMax = Math.ceil(max / tickSpacing) * tickSpacing;
     }
