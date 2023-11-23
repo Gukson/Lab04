@@ -5,6 +5,8 @@ public class NiceScale {
     private double min;
     private double max;
     private int maxTicks = 10; // maksymalna ilosć podziałek poziomy na skali pionowej
+    private int plusTicks;
+    private int minusTicks;
     private double tickSpacing; //przerwa między liniami poziomymi skali
     private double range; //zasięg jednostek skali
     private double niceMin;
@@ -21,6 +23,18 @@ public class NiceScale {
         tickSpacing = niceNum(range / (maxTicks - 1), true);
         niceMin = Math.floor(min / tickSpacing) * tickSpacing;
         niceMax = Math.ceil(max / tickSpacing) * tickSpacing;
+
+        //przy pomocy pętli for znaleść plus i min ticks
+        plusTicks = maxTicks;
+        if(min<0){
+            plusTicks = 0;
+            Double temp = 0.0;
+            while(temp < niceMax ){
+                temp+=tickSpacing;
+                plusTicks++;
+            }
+            minusTicks = maxTicks - plusTicks;
+        }
     }
 
     private double niceNum(final double RANGE, final boolean ROUND) {
@@ -98,5 +112,17 @@ public class NiceScale {
     public void setMax(double max) {
         this.max = max;
         calculate();
+    }
+
+    public int getPlusTicks() {
+        return plusTicks;
+    }
+
+    public int getMinusTicks() {
+        return minusTicks;
+    }
+
+    public double getRange() {
+        return range;
     }
 }

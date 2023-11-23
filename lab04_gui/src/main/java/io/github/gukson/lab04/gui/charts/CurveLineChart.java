@@ -19,6 +19,7 @@ import java.awt.geom.Path2D;
 import java.awt.geom.Rectangle2D;
 import java.awt.geom.RoundRectangle2D;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class CurveLineChart extends JComponent {
@@ -127,7 +128,7 @@ public class CurveLineChart extends JComponent {
             @Override
             public void renderGraphics(BlankPlotChart chart, Graphics2D g2, Rectangle2D rectangle) {
                 if (!model.isEmpty() && animate > 0 && index >= 0 && index <= legends.size() - 1) {
-                    draw(g2, rectangle, index, chart.getNiceScale().getTickSpacing() * chart.getNiceScale().getMaxTicks());
+                    draw(g2, rectangle, index, chart.getNiceScale().getTickSpacing() * chart.getNiceScale().getPlusTicks(),chart.getNiceScale().getNiceMin(), chart.getNiceScale().getRange());
                 }
             }
 
@@ -175,15 +176,16 @@ public class CurveLineChart extends JComponent {
         }
     }
 
-    private void draw(Graphics2D g2, Rectangle2D rec, int index, double maxValue) {
+    private void draw(Graphics2D g2, Rectangle2D rec, int index, double maxValue, double minValue, double range) {
+
         SplinePoint points[];
         if (lastPoint == null || !animatorChange.isRunning()) {
-            points = toPoint(rec, index, maxValue);
+            points = toPoint(rec, index, maxValue, minValue,range);
         } else {
             points = copyPoint(lastPoint);
         }
         if (animatorChange.isRunning()) {
-            SplinePoint pointsNew[] = toPoint(rec, index, maxValue);
+            SplinePoint pointsNew[] = toPoint(rec, index, maxValue, minValue,range);
             for (int i = 0; i < points.length; i++) {
                 double b = pointsNew[i].getY() - points[i].getY();
                 points[i].setY(points[i].getY() + (b * animateChange));
@@ -265,25 +267,24 @@ public class CurveLineChart extends JComponent {
         return newPoints;
     }
 
-    private SplinePoint[] toPoint(Rectangle2D rec, int index, double maxValue) {
+    private SplinePoint[] toPoint(Rectangle2D rec, int index, double maxValue, double minValue, double range) {
         SplinePoint points[] = new SplinePoint[model.size() + 2];
         for (int i = 0; i < model.size(); i++) {
-            points[i + 1] = toPoint(rec, i, model.size(), model.get(i).getValues()[index], maxValue);
+            points[i + 1] = toPoint(rec, i, model.size(), model.get(i).getValues()[index], maxValue, minValue, range);
         }
         points[0] = points[1];
         points[points.length - 1] = points[points.length - 2];
         return points;
     }
 
-    private SplinePoint toPoint(Rectangle2D rec, int index, int max, double values, double maxValues) {
+    private SplinePoint toPoint(Rectangle2D rec, int index, int max, double values, double maxValues, double minValues, double range) {
         double perX = rec.getWidth() / max;
         double x = (rec.getX() + perX * index) + perX / 2;
-        double y = rec.getHeight() + rec.getY() - convertPoint(values, rec.getHeight(), maxValues);
-        return new SplinePoint(x, y);
-    }
+        //tu trzeba uwzgędnić minValue
 
-    private double convertPoint(double values, double size, double maxValues) {
-        return values * 1 / maxValues * size;
+        double y = rec.getHeight() + rec.getY() - ((values - minValues)  /  (range) * rec.getHeight());
+
+        return new SplinePoint(x, y);
     }
 
     private void createPanelLegend() {
@@ -306,6 +307,7 @@ public class CurveLineChart extends JComponent {
             if (animate > 0) {
                 startChange(legend.getIndex());
                 updateMax(legend.getIndex());
+                updateMin(legend.getIndex());
                 clearLegendSelected(legend);
             }
         });
@@ -338,11 +340,21 @@ public class CurveLineChart extends JComponent {
         blankPlotChart.setMaxValues(max);
     }
 
+    public void updateMin(Integer index){
+        double min = 0;
+        for(ModelChart d: model){
+            if(d.getValues()[index] < min){
+                min = d.getValues()[index];
+            }
+        }
+        blankPlotChart.setMinValues(min);
+    }
+
     public void addData(ModelChart data) {
         model.add(data);
         blankPlotChart.setLabelCount(model.size());//ustawia ilość danych w skali poziomej
         updateMax(0); //usatwia skalę pionowa
-
+        updateMin(0);
     }
 
     public void clear() {

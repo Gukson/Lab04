@@ -222,4 +222,10 @@ public class BlankPlotChart extends JComponent {
     public DecimalFormat getFormat() {
         return format;
     }
+
+    public void setMinValues(double minValues) {
+        this.minValues = minValues;
+        niceScale.setMin(minValues);
+        repaint();
+    }
 }
