@@ -25,7 +25,7 @@ public class NiceScale {
         niceMax = Math.ceil(max / tickSpacing) * tickSpacing;
 
         //przy pomocy pętli for znaleść plus i min ticks
-        plusTicks = maxTicks;
+        plusTicks = maxTicks-1;
         if(min<0){
             plusTicks = 0;
             Double temp = 0.0;

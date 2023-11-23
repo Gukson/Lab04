@@ -346,6 +346,9 @@ public class CurveLineChart extends JComponent {
             if(d.getValues()[index] < min){
                 min = d.getValues()[index];
             }
+            if(d.getValues()[index] > 0 && d.getValues()[index] < 1 && min > 0 ){
+                min -= 1;
+            }
         }
         blankPlotChart.setMinValues(min);
     }
