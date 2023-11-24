@@ -2,10 +2,13 @@ package io.github.gukson.lab04.gui.charts;
 
 import io.github.gukson.lab04.client.dao.MeasurementDao;
 import io.github.gukson.lab04.client.model.Measurement;
+import io.github.gukson.lab04.gui.CoreUI;
 import io.github.gukson.lab04.gui.panel.PanelShadow;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.List;
 
 public class RunCharts extends JFrame {
@@ -82,8 +85,10 @@ public class RunCharts extends JFrame {
         chart.start();
     }
 
+
+
     public void AddLegends(){
-        chart.setTitle("Chart Data");
+        chart.addBackButton(panelShadow1);
         chart.addLegend("Temperature", Color.decode("#7b4397"), Color.decode("#dc2430"));
         chart.addLegend("Wind speed", Color.decode("#e65c00"), Color.decode("#F9D423"));
         chart.addLegend("Wind direction", Color.decode("#0099F7"), Color.decode("#F11712"));
@@ -91,4 +96,5 @@ public class RunCharts extends JFrame {
         chart.addLegend("Total Rainfall", Color.decode("#F96167"), Color.decode("#F9E795"));
         chart.addLegend("Pressure", Color.decode("#CCF381"), Color.decode("#4831D4"));
     }
+
 }
