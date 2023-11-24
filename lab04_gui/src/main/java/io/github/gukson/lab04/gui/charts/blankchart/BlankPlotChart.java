@@ -56,6 +56,7 @@ public class BlankPlotChart extends JComponent {
     private int labelCount;
     private String valuesFormat = "#,##0.##";
     private BlankPlotChatRender blankPlotChatRender;
+    private String unit;
 
     public BlankPlotChart() {
         setBackground(Color.WHITE);
@@ -91,7 +92,7 @@ public class BlankPlotChart extends JComponent {
             g2.setRenderingHint(RenderingHints.KEY_STROKE_CONTROL, RenderingHints.VALUE_STROKE_PURE);
             g2.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_LCD_HRGB);
             createLine(g2);
-            createValues(g2);
+            createValues(g2,this.unit);
             createLabelText(g2);
             renderSeries(g2);
         }
@@ -114,7 +115,7 @@ public class BlankPlotChart extends JComponent {
 
     }
 
-    private void createValues(Graphics2D g2) {
+    private void createValues(Graphics2D g2, String unit) {
         g2.setColor(getForeground());
         Insets insets = getInsets();
         double textHeight = getLabelTextHeight(g2);
@@ -123,15 +124,20 @@ public class BlankPlotChart extends JComponent {
         double valuesCount = niceScale.getNiceMin();
         double locationY = insets.bottom + textHeight;
         FontMetrics ft = g2.getFontMetrics();
+        double stringY = 0.0;
+        double y;
         for (int i = 0; i <= niceScale.getMaxTicks(); i++) {
             String text = format.format(valuesCount);
             Rectangle2D r2 = ft.getStringBounds(text, g2);
-            double stringY = r2.getCenterY() * -1;
-            double y = getHeight() - locationY + stringY;
+            stringY = r2.getCenterY() * -1;
+            y = getHeight() - locationY + stringY;
             g2.drawString(text, insets.left, (int) y);
             locationY += space;
             valuesCount += niceScale.getTickSpacing();
         }
+        y = getHeight() - locationY + stringY;
+
+        g2.drawString(unit,insets.left, (int) y);
     }
 
     private void createLabelText(Graphics2D g2) {
@@ -189,6 +195,7 @@ public class BlankPlotChart extends JComponent {
             }
             valuesCount += niceScale.getTickSpacing();
         }
+
         return width;
     }
 
@@ -227,5 +234,9 @@ public class BlankPlotChart extends JComponent {
         this.minValues = minValues;
         niceScale.setMin(minValues);
         repaint();
+    }
+
+    public void setUnit(String unit) {
+        this.unit = unit;
     }
 }

@@ -114,6 +114,7 @@ public class CurveLineChart extends JComponent {
 
     private void createBlankChart() {
         blankPlotChart = new BlankPlotChart();
+        blankPlotChart.setUnit("[°C]");
         add(blankPlotChart);
     }
 
@@ -346,9 +347,14 @@ public class CurveLineChart extends JComponent {
             if(d.getValues()[index] < min){
                 min = d.getValues()[index];
             }
-            if(d.getValues()[index] > 0 && d.getValues()[index] < 1 && min > 0 ){
-                min -= 1;
+        }
+        if(min >= 0){
+            for(ModelChart d: model){
+                if(d.getValues()[index] > 0 && d.getValues()[index] < 1 ){
+                    min = -1;
+                }
             }
+
         }
         blankPlotChart.setMinValues(min);
     }
@@ -393,6 +399,7 @@ public class CurveLineChart extends JComponent {
             if (animatorChange.isRunning()) {
                 animatorChange.stop();
             }
+            blankPlotChart.setUnit(ChangeUnit(index));
             lastPoint = copyPoint(current);
             animateChange = 0;
             this.index = index;
@@ -404,6 +411,24 @@ public class CurveLineChart extends JComponent {
             animatorChange.addTarget(timingColor2);
             animatorChange.start();
         }
+    }
+
+    private String ChangeUnit(int index){
+        switch (index){
+            case 0:
+                return "[°C]";
+            case 1:
+                return "[m/s]";
+            case 2:
+                return "[°]";
+            case 3:
+                return "[%]";
+            case 4:
+                return "[mm]";
+            case 5:
+                return "[hPa]";
+        }
+        return "unit";
     }
 
     public void resetAnimation() {

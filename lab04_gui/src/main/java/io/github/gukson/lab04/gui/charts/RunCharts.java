@@ -75,8 +75,6 @@ public class RunCharts extends JFrame {
         List<Measurement> list = measurementDao.getDataById(Integer.parseInt(this.name));
         for(Measurement m: list){
             chart.addData(new ModelChart(String.valueOf(m.getMeasurementData()), new double[]{m.getTemperature(),m.getWindSpeed(),m.getWindDirection(),m.getRelativeHumidity(),m.getTotalRainfall(),m.getPressure()}));
-            //TODO problem with Total Rainfall amount - maybe do it x100?
-            //TODO make data more vertical to save space when lot of data
         }
 
         //metoda addData dodaje labele do listy punktów w poziomej skali oraz wylicza na bierzącą maksymalną skalę poziomą
@@ -89,11 +87,8 @@ public class RunCharts extends JFrame {
         chart.addLegend("Temperature", Color.decode("#7b4397"), Color.decode("#dc2430"));
         chart.addLegend("Wind speed", Color.decode("#e65c00"), Color.decode("#F9D423"));
         chart.addLegend("Wind direction", Color.decode("#0099F7"), Color.decode("#F11712"));
-        chart.addLegend("Relative Humanity", Color.decode("#0099F7"), Color.decode("#F11712"));
-        chart.addLegend("Total Rainfall", Color.decode("#0099F7"), Color.decode("#F11712"));
-        chart.addLegend("Pressure", Color.decode("#0099F7"), Color.decode("#F11712"));
-        //TODO get more colors combination
+        chart.addLegend("Relative Humanity", Color.decode("#2F3C7E"), Color.decode("#FBEAEB"));
+        chart.addLegend("Total Rainfall", Color.decode("#F96167"), Color.decode("#F9E795"));
+        chart.addLegend("Pressure", Color.decode("#CCF381"), Color.decode("#4831D4"));
     }
-
-
 }
