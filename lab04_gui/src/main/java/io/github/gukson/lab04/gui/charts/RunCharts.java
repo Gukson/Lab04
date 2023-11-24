@@ -92,7 +92,7 @@ public class RunCharts extends JFrame {
         chart.addLegend("Temperature", Color.decode("#7b4397"), Color.decode("#dc2430"));
         chart.addLegend("Wind speed", Color.decode("#e65c00"), Color.decode("#F9D423"));
         chart.addLegend("Wind direction", Color.decode("#0099F7"), Color.decode("#F11712"));
-        chart.addLegend("Relative Humanity", Color.decode("#2F3C7E"), Color.decode("#FBEAEB"));
+        chart.addLegend("Relative Humidity", Color.decode("#2F3C7E"), Color.decode("#FBEAEB"));
         chart.addLegend("Total Rainfall", Color.decode("#F96167"), Color.decode("#F9E795"));
         chart.addLegend("Pressure", Color.decode("#CCF381"), Color.decode("#4831D4"));
     }

@@ -46,7 +46,7 @@ public class MenuGUI extends JFrame {
 
         MenuButtons menuButtons = new MenuButtons();
         try{
-            menuButtons.buttonsGenerator(measurementDao.getAllStationId(), rowHolderPanel, MenuGUI.this);
+            menuButtons.buttonsGenerator(measurementDao.getAllStationId(), rowHolderPanel, MenuGUI.this, measurementDao);
         }
         catch (SQLException ignored){}
 

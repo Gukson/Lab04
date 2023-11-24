@@ -108,4 +108,13 @@ public class MeasurementDao implements Dao<Measurement> {
         }
         return idList;
     }
+
+    public String getStationById(Integer id) throws SQLException {
+        List<Integer> idList = new ArrayList<>();
+        PreparedStatement stmt = connection.prepareStatement("SELECT * FROM data WHERE stationId = (?)");
+        stmt.setInt(1,id);
+        ResultSet resultSet = stmt.executeQuery();
+
+        return resultSet.getString("station");
+    }
 }
