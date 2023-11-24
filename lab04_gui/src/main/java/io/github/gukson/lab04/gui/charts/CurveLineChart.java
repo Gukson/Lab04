@@ -1,5 +1,6 @@
 package io.github.gukson.lab04.gui.charts;
 
+import io.github.gukson.lab04.gui.CoreUI;
 import net.miginfocom.swing.MigLayout;
 import org.jdesktop.animation.timing.Animator;
 import org.jdesktop.animation.timing.TimingTarget;
@@ -11,8 +12,10 @@ import io.github.gukson.lab04.gui.spline.Spline;
 import io.github.gukson.lab04.gui.spline.SplinePoint;
 
 import javax.swing.*;
+import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.Path2D;
@@ -288,14 +291,27 @@ public class CurveLineChart extends JComponent {
         return new SplinePoint(x, y);
     }
 
+    public void addBackButton(JPanel panel){
+        JButton backButton = new JButton("<- Back");
+        backButton.setFont(backButton.getFont().deriveFont(Font.BOLD, 15));
+        backButton.setForeground(Color.white);
+        backButton.setContentAreaFilled(false);
+        backButton.setCursor(new Cursor(Cursor.HAND_CURSOR));
+        backButton.setBorder(new EmptyBorder(2, 25, 2, 1));
+        backButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                CoreUI coreui = (CoreUI) SwingUtilities.getWindowAncestor(panel);
+                coreui.toogleMaenu();
+            }
+        });
+        panelLegend.add(backButton, "push");
+
+    }
+
     private void createPanelLegend() {
-        panelLegend = new JPanel();
         panelLegend.setOpaque(false);
         panelLegend.setLayout(new MigLayout("filly, center, inset 0", "[]10[]"));
-        labelTitle = new JLabel();
-        labelTitle.setForeground(new Color(229, 229, 229));
-        labelTitle.setFont(labelTitle.getFont().deriveFont(Font.BOLD, 15));
-        panelLegend.add(labelTitle, "push, gap left 10");
         add(panelLegend, "wrap");
     }
 
@@ -436,9 +452,7 @@ public class CurveLineChart extends JComponent {
         repaint();
     }
 
-    public void setTitle(String title) {
-        labelTitle.setText(title);
-    }
+
 
     public String getTitle() {
         return labelTitle.getText();
@@ -465,7 +479,6 @@ public class CurveLineChart extends JComponent {
         super.setForeground(fg);
         if (blankPlotChart != null) {
             blankPlotChart.setForeground(fg);
-            labelTitle.setForeground(fg);
         }
     }
 
@@ -483,6 +496,11 @@ public class CurveLineChart extends JComponent {
     }
 
     private BlankPlotChart blankPlotChart;
-    private JPanel panelLegend;
+    private JPanel panelLegend = new JPanel();
     private JLabel labelTitle;
+    private Container container;
+
+    public JPanel getPanelLegend() {
+        return panelLegend;
+    }
 }
