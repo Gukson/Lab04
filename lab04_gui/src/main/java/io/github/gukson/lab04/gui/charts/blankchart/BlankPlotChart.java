@@ -92,7 +92,7 @@ public class BlankPlotChart extends JComponent {
             g2.setRenderingHint(RenderingHints.KEY_STROKE_CONTROL, RenderingHints.VALUE_STROKE_PURE);
             g2.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_LCD_HRGB);
             createLine(g2);
-            createValues(g2,this.unit);
+            verticalScale(g2,this.unit);
             createLabelText(g2);
             renderSeries(g2);
         }
@@ -115,7 +115,7 @@ public class BlankPlotChart extends JComponent {
 
     }
 
-    private void createValues(Graphics2D g2, String unit) {
+    private void verticalScale(Graphics2D g2, String unit) {
         g2.setColor(getForeground());
         Insets insets = getInsets();
         double textHeight = getLabelTextHeight(g2);
@@ -150,14 +150,16 @@ public class BlankPlotChart extends JComponent {
             double locationX = insets.left + textWidth + spaceText;
             double locationText = getHeight() - insets.bottom + 5;
             FontMetrics ft = g2.getFontMetrics();
-            for (int i = 0; i < labelCount; i++) {
+            //ustawiamy co ile dat ma się pojawiać
+            int dataSpace = 3;
+            for (int i = 0; i < labelCount; i+=dataSpace) {
                 double centerX = ((locationX + space / 2));
                 g2.setColor(getForeground());
                 String text = getChartText(i);
                 Rectangle2D r2 = ft.getStringBounds(text, g2);
                 double textX = centerX - r2.getWidth() / 2;
                 g2.drawString(text, (int) textX, (int) locationText);
-                locationX += space;
+                locationX += space*dataSpace;
             }
         }
     }

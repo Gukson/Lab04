@@ -22,7 +22,6 @@ import java.awt.geom.Path2D;
 import java.awt.geom.Rectangle2D;
 import java.awt.geom.RoundRectangle2D;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 public class CurveLineChart extends JComponent {
@@ -229,11 +228,11 @@ public class CurveLineChart extends JComponent {
         g2.draw(path);
         if (currentPoint != -1) {
             SplinePoint s = spline.getSpline(currentPoint);
-            drawLabel(g2, s);
+            drawHeightLabel(g2, s);
         }
     }
 
-    private void drawLabel(Graphics2D g2, SplinePoint s) {
+    private void drawHeightLabel(Graphics2D g2, SplinePoint s) {
         g2.setStroke(new BasicStroke(1f));
         g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, alphaLable * 0.3f));
         g2.fill(new Ellipse2D.Double(s.getX() - 13, s.getY() - 13, 26, 26));
@@ -242,13 +241,14 @@ public class CurveLineChart extends JComponent {
         g2.setColor(getForeground());
         g2.fill(new Ellipse2D.Double(s.getX() - 5, s.getY() - 5, 10, 10));
         if (selectedIndex >= 0) {
-            String text = blankPlotChart.getFormat().format(model.get(selectedIndex).getValues()[index]);
+            String value = blankPlotChart.getFormat().format(model.get(selectedIndex).getValues()[index]);
+            String data = model.get(selectedIndex).getLabel();
             FontMetrics fm = g2.getFontMetrics();
-            Rectangle2D r2 = fm.getStringBounds(text, g2);
-            double space = 5;
-            double w = r2.getWidth() + space * 2;
-            double h = r2.getHeight() + space * 2;
-            double x = (s.getX() - r2.getWidth() / 2) - space;
+            Rectangle2D r2 = fm.getStringBounds(data, g2);
+            double space = 24;
+            double w = r2.getWidth() + space/2;
+            double h = r2.getHeight() + space ;
+            double x = (s.getX() - r2.getWidth()/2) - space/2;
             double y = s.getY() + fm.getAscent() - r2.getHeight() - h - 13;
             g2.translate(x, y);
             g2.setColor(new Color(255, 255, 255, 100));
@@ -256,10 +256,12 @@ public class CurveLineChart extends JComponent {
             g2.setColor(new Color(200, 200, 200, 100));
             g2.draw(new RoundRectangle2D.Double(0, 0, w, h, 5, 5));
             g2.setColor(getForeground());
-            double fx = (w - r2.getWidth()) / 2;
-            double fy = (h - r2.getHeight()) / 2;
+            double fxPoint = (w - fm.getStringBounds(value,g2).getWidth()) / 2;
+            double fxData = (w - r2.getWidth()) / 2;
+            double fy = (h - r2.getHeight()) / 4;
             fy += fm.getAscent();
-            g2.drawString(text, (int) fx, (int) fy);
+            g2.drawString(value, (int) fxPoint, (int) fy - 5);
+            g2.drawString(data, (int) fxData, (int) fy*2 - 5);
         }
     }
 
