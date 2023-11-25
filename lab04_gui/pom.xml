@@ -29,8 +29,8 @@
         </dependency>
         <dependency>
             <groupId>com.miglayout</groupId>
-            <artifactId>miglayout</artifactId>
-            <version>1.0</version>
+            <artifactId>miglayout-core</artifactId>
+            <version>4.2</version>
             <scope>system</scope>
             <systemPath>/Users/kuba/Documents/MojeDokumenty/studia/III semestr/Kubik/Lab04/miglayout-4.0.jar</systemPath>
         </dependency>
